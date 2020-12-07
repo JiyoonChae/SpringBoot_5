@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.iu.sb5.board.BoardService;
 import com.iu.sb5.board.BoardVO;
@@ -15,9 +16,9 @@ public class QnaService implements BoardService{
 	private QnaMapper qnaMapper;
 	
 	@Override
-	public int setInsert(BoardVO boardVO) throws Exception {
+	public int setInsert(BoardVO boardVO, MultipartFile[] files) throws Exception {
 		
-		return qnaMapper.setInsert(boardVO);
+		return qnaMapper.setInsert(boardVO, files);
 	}
 
 	@Override
