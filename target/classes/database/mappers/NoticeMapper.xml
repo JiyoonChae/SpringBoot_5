@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.iu.sb5.board.notice.NoticeMapper"> 
+  		<insert id="setInsert" parameterType="NoticeVO">
+  		insert into qna (title, writer, contents, regDate, hit) values
+		(#{title}, #{writer}, #{contents}, sysdate(), 0)
+  		</insert>
+  
+  		<delete id="setDelete" parameterType="BoardVO">
+  			delete from notice where num=#{num}
+  		</delete>
+  
+  		<update id="setUpdate" parameterType="BoardVO">
+  			update notice set title=#{title}, contents=#{contents} where num=#{num}
+  		</update>
+  
+  
+  		<select id="getList" parameterType="Pager" resultType="BoardVO">
+  			select * from notice where 
+  			<choose>
+  				<when test="kind=='title'">
+  					title
+  				</when>
+  				<when test="kind=='writer'">
+  					writer
+  				</when>
+  				<otherwise>contents</otherwise>
+  			</choose>
+  			like concat('%', #{search},'%') and num >0 
+  			order by num desc limit #{startRow}, #{perPage}
+  		</select>
+  		
+  		<select id="getCount" resultType="Long">
+  			select count(num) from notice where
+  			<choose>
+  				<when test="kind=='title'">
+  					title
+  				</when>
+  				<when test="kind='writer'">
+  					writer
+  				</when>
+  				<otherwise>
+  					contents
+  				</otherwise>
+  			</choose>
+  			like concat('%',#{search},'%') and num>0
+  		</select>
+  		
+  		<select id="getOne" parameterType="BoardVO" resultType="BoardVO">
+  			select * from notice where num = #{num}
+  		</select>
+  
+  </mapper>
