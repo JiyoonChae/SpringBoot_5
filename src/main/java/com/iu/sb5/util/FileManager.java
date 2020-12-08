@@ -1,0 +1,25 @@
+package com.iu.sb5.util;
+
+import java.io.File;
+import java.util.UUID;
+
+import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+@Component
+public class FileManager {
+	public String saveFileCopy(MultipartFile multipartfile, File file) throws Exception{
+		String fileName=null;
+		
+		//중복되지 않는 파일명 생성
+		fileName = UUID.randomUUID().toString()+"_"+multipartfile.getOriginalFilename();
+		
+		//경로명은 매개변수로 받음
+		file = new File(file, fileName);
+		
+		FileCopyUtils.copy(multipartfile.getBytes(), file);
+		
+		return fileName;
+	}
+}

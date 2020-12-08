@@ -38,9 +38,16 @@
   		like concat('%',#{search},'%') order by num desc
   	</select>
   	
-  	<insert id="setInsert" parameterType="QnaVO">
-  		insert into qna (title, writer, contents, regDate, hit, ref, step, depth) values
-		(#{title}, #{writer}, #{contents}, sysdate(), 0, 0,0,0);
+  	<insert id="setInsert" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="num">
+  		insert into qna (num, title, writer, contents, regDate, hit, ref, step, depth) values
+		(#{num}, #{title}, #{writer}, #{contents}, sysdate(), 0, 0,0,0);
   	</insert>
   
+  	<insert id="setInsertFile" parameterType="FileVO">
+	  	insert into qnaFiles (num, fileName, oriName) values(#{num}, #{fileName}, #{oriName})	
+  	</insert>
+  	
+  	<update id="setRefUpdate" parameterType="QnaVO">
+  		update qna set ref=#{num} where num=#{num}
+  	</update>
   </mapper>

@@ -10,6 +10,7 @@
   		<typeAlias type="com.iu.sb5.board.notice.NoticeVO" alias="NoticeVO"/>
   		<typeAlias type="com.iu.sb5.board.qna.QnaVO" alias="QnaVO"/>
   		<typeAlias type="com.iu.sb5.util.Pager" alias="Pager"/>
+  		<typeAlias type="com.iu.sb5.board.file.FileVO" alias="FileVO"/>
   	</typeAliases>
   	
   </configuration>

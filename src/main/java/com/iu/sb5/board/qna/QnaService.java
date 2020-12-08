@@ -1,24 +1,59 @@
 package com.iu.sb5.board.qna;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.iu.sb5.board.BoardService;
 import com.iu.sb5.board.BoardVO;
+import com.iu.sb5.board.file.FileVO;
+import com.iu.sb5.util.FileManager;
+import com.iu.sb5.util.FilePathGenerator;
 import com.iu.sb5.util.Pager;
+
+import lombok.val;
 
 @Service
 public class QnaService implements BoardService{
 	@Autowired
 	private QnaMapper qnaMapper;
 	
+	//파일 저장 디렉토리 생성
+	@Autowired
+	private FilePathGenerator filePathGenerator;
+	@Autowired
+	private FileManager fileManager;
+	
+	@Value("${board.qna.filePath}")
+	private String filePath;
+	
+	
 	@Override
 	public int setInsert(BoardVO boardVO, MultipartFile[] files) throws Exception {
+		int result = qnaMapper.setInsert(boardVO);
+		String filePath="upload/qna";
+		File file = filePathGenerator.getUseResourceLoader(filePath);
 		
-		return qnaMapper.setInsert(boardVO, files);
+		for(MultipartFile multipartfile: files) {
+			if(multipartfile.getSize()==0) {
+				continue;
+			}
+			
+			String fileName= fileManager.saveFileCopy(multipartfile, file);
+			System.out.println(fileName);
+			FileVO fileVO = new FileVO();
+			fileVO.setFileName(fileName);
+			fileVO.setOriName(multipartfile.getOriginalFilename());
+			fileVO.setNum(boardVO.getNum());
+			
+			result = qnaMapper.setInsertFile(fileVO);
+		}
+		
+		return result;
 	}
 
 	@Override
