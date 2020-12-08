@@ -35,8 +35,8 @@ public class QnaService implements BoardService{
 	@Override
 	public int setInsert(BoardVO boardVO, MultipartFile[] files) throws Exception {
 		int result = qnaMapper.setInsert(boardVO);
-	
-		File file = filePathGenerator.getUseResourceLoader(this.filePath);
+		String filePath="upload/qna";
+		File file = filePathGenerator.getUseResourceLoader(filePath);
 		
 		for(MultipartFile multipartfile: files) {
 			if(multipartfile.getSize()==0) {
