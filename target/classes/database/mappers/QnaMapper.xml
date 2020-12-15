@@ -15,6 +15,10 @@
   	<select id="getOne" parameterType="BoardVO" resultType="BoardVO">
   		select * from qna where num = #{num}
   	</select>
+  	
+  	<select id="getFiles" parameterType="BoardVO" resultType="FileVO">
+  			select oriName from qna N inner join qnaFiles F on N.num=F.num where N.num=#{num}
+  	</select>
   
   	<select id="getList" parameterType="Pager" resultType="BoardVO">
   		select * from qna where

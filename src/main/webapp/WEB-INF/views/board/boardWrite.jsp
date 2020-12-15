@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,18 +18,23 @@
 
 <div class="container">
 	
-	  <form action="./${board}Write" method="post" enctype="multipart/form-data">
-  		<div class="form-group">
+	<form:form modelAttribute="boardVO" enctype="multipart/form-data">
+		<div class="form-group">
+  		<h3><spring:message code="hello"></spring:message> </h3>
     		<label for="title">Title</label>
-    		<input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
+    		<!-- path는 parameter name -->
+    		<form:input path="title" class="form-control"/>
+    		<form:errors path="title"> </form:errors>
   		</div>
-  		<div class="form-group">
+	
+		<div class="form-group">
     		<label for="writre">Writer</label>
-    		<input type="text" class="form-control" id="writer" name="writer">
+    		<form:input path="writer" class="form-control"/>
+			<form:errors path="writer"></form:errors>
   		</div>
   		<div class="form-group">
 			  <label for="contents">Contents:</label>
-	 		 <textarea id="summernote" name="contents" class="form-control" rows="25" ></textarea>
+	 		 <form:textarea path="contents" id="summernote"/>
 		</div>
 		<div class="form-group">
     		<label for="files">File</label>
@@ -35,9 +42,10 @@
     		<input type="file"  name="files">
   		</div>
   	  <button type="submit" class="btn btn-default">Write</button>
-	</form>
-		
-		
+	</form:form>
+  		
+  		
+	
 	
 	</div>
 	

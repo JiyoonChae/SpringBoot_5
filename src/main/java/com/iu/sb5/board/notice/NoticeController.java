@@ -2,6 +2,8 @@ package com.iu.sb5.board.notice;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iu.sb5.board.BoardVO;
+import com.iu.sb5.board.file.FileVO;
 import com.iu.sb5.util.Pager;
 
 @Controller
@@ -26,7 +29,7 @@ public class NoticeController {
 	}
 	
 	@GetMapping("noticeWrite")
-	public ModelAndView setInsert()throws Exception{
+	public ModelAndView setInsert(BoardVO boardVO)throws Exception{
 		ModelAndView mv= new ModelAndView();
 		mv.addObject("board", "notice");
 		mv.setViewName("board/boardWrite");
@@ -52,9 +55,9 @@ public class NoticeController {
 	
 	
 	@PostMapping("noticeUpdate")
-	public String setUpdate2(BoardVO boardVO) throws Exception {
+	public String setUpdate2(BoardVO boardVO, MultipartFile[] files) throws Exception {
 		
-		int result = noticeService.setUpdate(boardVO);
+		int result = noticeService.setUpdate(boardVO,files);
 		
 		
 		return "redirect:./noticeList";
@@ -73,10 +76,15 @@ public class NoticeController {
 	}
 	
 	@GetMapping("noticeSelect")
-	public ModelAndView getOne(BoardVO boardVO) throws Exception{
+	public ModelAndView getOne(BoardVO boardVO, HttpSession session) throws Exception{
 		ModelAndView mv= new ModelAndView();
 		boardVO = noticeService.getOne(boardVO);
 		
+		BoardVO vo = (BoardVO) session.getAttribute("notice");
+		List<FileVO> files = noticeService.getFiles(boardVO);
+
+		
+		mv.addObject("list", files);
 		mv.addObject("vo", boardVO);
 		mv.addObject("board", "notice");
 		mv.setViewName("board/boardSelect");

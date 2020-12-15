@@ -18,7 +18,7 @@ public class FilePathGenerator {
 		
 		String path ="classpath:/static/";
 		File file= new File(resourceLoader.getResource(path).getFile(), filePath);
-	
+		
 		if(!file.exists()) {
 			file.mkdirs();
 		}

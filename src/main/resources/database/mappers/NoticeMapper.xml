@@ -4,9 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.iu.sb5.board.notice.NoticeMapper"> 
-  		<insert id="setInsert" parameterType="NoticeVO">
-  		insert into qna (title, writer, contents, regDate, hit) values
-		(#{title}, #{writer}, #{contents}, sysdate(), 0)
+  		<insert id="setInsert" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="num">
+  		insert into notice (num, title, writer, contents, regDate, hit) values
+		(#{num},#{title}, #{writer}, #{contents}, sysdate(), 0)
+  		</insert>
+  		
+  		<insert id="setInsertFile" parameterType="FileVO">
+	  	insert into noticeFiles (num, fileName, oriName) values(#{num}, #{fileName}, #{oriName})	
   		</insert>
   
   		<delete id="setDelete" parameterType="BoardVO">
@@ -51,6 +55,10 @@
   		
   		<select id="getOne" parameterType="BoardVO" resultType="BoardVO">
   			select * from notice where num = #{num}
+  		</select>
+  		
+  		<select id="getFiles" parameterType="BoardVO" resultType="FileVO">
+  			select oriName from notice N inner join noticeFiles F on N.num=F.num where N.num=#{num}
   		</select>
   
   </mapper>

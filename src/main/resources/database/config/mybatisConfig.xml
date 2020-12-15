@@ -11,6 +11,7 @@
   		<typeAlias type="com.iu.sb5.board.qna.QnaVO" alias="QnaVO"/>
   		<typeAlias type="com.iu.sb5.util.Pager" alias="Pager"/>
   		<typeAlias type="com.iu.sb5.board.file.FileVO" alias="FileVO"/>
+  		<typeAlias type="com.iu.sb5.member.MemberVO" alias="MemberVO"/>
   	</typeAliases>
   	
   </configuration>

@@ -23,4 +23,6 @@ public interface BoardMapper {
 	
 	public BoardVO getOne(BoardVO boardVO) throws Exception;
 	
+	public List<FileVO> getFiles(BoardVO boardVO) throws Exception;
+	
 }

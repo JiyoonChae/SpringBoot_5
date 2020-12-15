@@ -16,6 +16,14 @@
 	<h3>${vo.writer}</h3>
 	<h3>${vo.contents}</h3>
 	
+	<h3>Files</h3>
+		
+ 		<c:forEach items="${list}" var="file">
+ 			<p><a href="#">${file.oriName}</a></p>
+ 			<img alt="oriName" src="../resources/upload/notice/${notice.files.oriName}">
+ 		</c:forEach>
+	
+	
 	<button class="btn btn-success" id="update">Update</button>
 	<input type="button" value="Delete" class="btn btn-danger" id="delete">
 	

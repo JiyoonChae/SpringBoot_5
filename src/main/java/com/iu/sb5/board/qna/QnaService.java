@@ -57,7 +57,7 @@ public class QnaService implements BoardService{
 	}
 
 	@Override
-	public int setUpdate(BoardVO boardVO) throws Exception {
+	public int setUpdate(BoardVO boardVO, MultipartFile[] files) throws Exception {
 		System.out.println("qna update service 까지옴");
 		return qnaMapper.setUpdate(boardVO);
 	}
@@ -85,5 +85,12 @@ public class QnaService implements BoardService{
 		
 		return qnaMapper.getOne(boardVO);
 	}
+
+	@Override
+	public List<FileVO> getFiles(BoardVO boardVO) throws Exception {
+		// TODO Auto-generated method stub
+		return qnaMapper.getFiles(boardVO);
+	}
+
 	
 }

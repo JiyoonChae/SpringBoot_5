@@ -2,8 +2,11 @@ package com.iu.sb5.board.qna;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.iu.sb5.board.BoardVO;
+import com.iu.sb5.board.file.FileVO;
 import com.iu.sb5.util.Pager;
 
 @Controller
@@ -27,13 +31,17 @@ public class QnaController {
 	}
 	
 	@PostMapping("qnaWrite")
-	public String setInsert(BoardVO boardVO, MultipartFile [] files) throws Exception{
+	public String setInsert(@Valid BoardVO boardVO,BindingResult bindingResult, MultipartFile [] files) throws Exception{
+		if(bindingResult.hasErrors()) {
+			System.out.println("검증 실패!----");
+			return "board/boardWrite";
+		}
 		int result = qnaService.setInsert(boardVO, files);
 		return "redirect:./qnaList";
 	}
 	
 	@GetMapping("qnaWrite")
-	public ModelAndView setInsert()throws Exception{
+	public ModelAndView setInsert(BoardVO boardVO)throws Exception{
 		ModelAndView mv= new ModelAndView();
 		mv.addObject("board", "qna");
 		mv.setViewName("board/boardWrite");
@@ -58,10 +66,10 @@ public class QnaController {
 	
 	
 	@PostMapping("qnaUpdate")
-	public String setUpdate2(BoardVO boardVO) throws Exception {
+	public String setUpdate(BoardVO boardVO, MultipartFile[] files) throws Exception {
 		System.out.println("post update 옴");
 		System.out.println(boardVO.getContents());
-		int result = qnaService.setUpdate(boardVO);
+		int result = qnaService.setUpdate(boardVO, files);
 		
 		
 		return "redirect:./qnaList";
@@ -81,8 +89,14 @@ public class QnaController {
 	public ModelAndView getOne(BoardVO boardVO) throws Exception{
 		boardVO = qnaService.getOne(boardVO);
 		ModelAndView mv= new ModelAndView();
+		
+	
+		List<FileVO> files = qnaService.getFiles(boardVO);
+
+		
+		mv.addObject("list", files);
 		mv.addObject("vo", boardVO);
-	//	mv.addObject("board", "qna");
+	
 		mv.setViewName("board/boardSelect");
 		return mv;
 	}
